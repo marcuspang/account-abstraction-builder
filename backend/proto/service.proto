@@ -11,5 +11,5 @@ message GetSolidityCodeRequest {
 
 message GetSolidityCodeResponse {
   bool compiled = 1;
-  string code = 2;
+  map<string, string> code = 2;
 }
