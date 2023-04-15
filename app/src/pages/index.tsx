@@ -1,6 +1,6 @@
 import DeployButton from "@/components/DeployButton";
 import DropBoxArea from "@/components/Draggables/DropBoxArea";
-import PluginCard from "@/components/PluginCard";
+import PluginsSection, { PLUGINS_DATA } from "@/components/PluginsSection";
 import clientService from "@/proto/client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { GetServerSideProps } from "next";
@@ -13,47 +13,6 @@ const inter = Inter({ subsets: ["latin"] });
 
 // TODO: figure out how other code editors do this
 // TODO: adding modifiers !== composing code logic, not sure if this is what we are trying to aim for
-const PLUGINS_DATA = [
-  // 1. push
-  // 2. aave
-  // 3. social recovery
-  // 4. worldcoin
-  {
-    displayName: "Send notification",
-    protocol: "Push",
-    id: 1,
-    description:
-      "Sends a push notification to the specified address whenever a transaction occurs",
-  },
-  {
-    displayName: "AAVE auto-lend",
-    protocol: "AAVE",
-    id: 2,
-    description:
-      "Immediately lends to the specified pool whenever a currency is deposited to the wallet",
-  },
-  {
-    displayName: "Social Recovery",
-    protocol: "Safe",
-    id: 3,
-    description:
-      "Enables you to recover your wallet through social media accounts",
-  },
-  {
-    displayName: "Make wallet soulbound to Worldcoin",
-    protocol: "Worldcoin",
-    id: 4,
-    description:
-      "Ensures that the wallet is only accessible to the specified Worldcoin account",
-  },
-];
-
-export interface CodePlugin {
-  displayName: string;
-  protocol: string;
-  id: number;
-  description: string;
-}
 
 const HomePage = () => {
   const [plugins, setPlugins] = useState(PLUGINS_DATA);
@@ -67,31 +26,7 @@ const HomePage = () => {
       <DndProvider backend={HTML5Backend}>
         <div className="grid grid-cols-5 pt-12 z-0 gap-4 w-full">
           <div className="col-span-2">
-            <ul className="pb-12">
-              {PLUGINS_DATA.map((plugin, index) => (
-                <PluginCard
-                  key={index}
-                  {...plugin}
-                  onClick={(id: number) =>
-                    setPlugins((prev) => {
-                      const currentPlugin = plugins.find(
-                        (plugin) => plugin.id === id
-                      );
-
-                      if (currentPlugin === undefined) {
-                        return [
-                          ...prev,
-                          PLUGINS_DATA.find((plugin) => plugin.id === id)!,
-                        ];
-                      }
-                      const result = prev.filter((plugin) => plugin.id !== id);
-                      return result;
-                    })
-                  }
-                  currentPlugins={plugins}
-                />
-              ))}
-            </ul>
+            <PluginsSection plugins={plugins} setPlugins={setPlugins} />
           </div>
           <div className="col-span-3">
             <DropBoxArea plugins={plugins} setPlugins={setPlugins} />
