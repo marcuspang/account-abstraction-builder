@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package service;
+
+service Service {
+  rpc GetSolidityCode(GetSolidityCodeRequest) returns (GetSolidityCodeResponse) {}
+}
+
+message GetSolidityCodeRequest {
+}
+
+message GetSolidityCodeResponse {
+  bool compiled = 1;
+  string code = 2;
+}
