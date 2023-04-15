@@ -17,5 +17,5 @@ message GetSolidityCodeRequest {
 
 message GetSolidityCodeResponse {
   bool compiled = 1;
-  map<string, string> code = 2;
+  string artifact = 2;
 }

@@ -93,18 +93,16 @@ fn compile_contracts() -> GetSolidityCodeResponse {
     if !output.status.success() {
         return GetSolidityCodeResponse {
             compiled: false,
-            code: HashMap::new(),
+            artifact: "".to_string(),
         };
     }
 
     let output_json_path = "../contracts/out/UserAccount.sol/UserAccount.json";
     let artifact = read_to_string(output_json_path).unwrap();
-    let mut code = HashMap::new();
-    code.insert("artifact".to_string(), artifact);
 
     GetSolidityCodeResponse {
         compiled: true,
-        code,
+        artifact,
     }
 }
 
