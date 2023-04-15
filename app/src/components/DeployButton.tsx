@@ -20,8 +20,8 @@ export default function DeployButton({
 					WebkitBackgroundClip: "text",
 					WebkitTextFillColor: "transparent",
 				}}
-				onMouseEnter={(e) => e.target.classList.add("animate-gradient-x")}
-				onMouseLeave={(e) => e.target.classList.remove("animate-gradient-x")}>
+				onMouseEnter={(e) => e.currentTarget.classList.add("animate-gradient-x")}
+				onMouseLeave={(e) => e.currentTarget.classList.remove("animate-gradient-x")}>
 				{children}
 			</button>
 		</div>
