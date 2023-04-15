@@ -17,7 +17,7 @@ library PushLibrary {
         address dest,
         uint256 value,
         bytes calldata func
-    ) public {
+    ) internal {
         IPUSHCommInterface(pushCommContract).sendNotification(
             channelId,
             to,
