@@ -5,8 +5,15 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import { CodeContextProvider } from "@/contexts/CodeContext";
+import { useEffect } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    if (localStorage.theme === "dark" || !("theme" in localStorage)) {
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
   return (
     <CodeContextProvider>
       <ToastContainer
