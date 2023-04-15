@@ -24,8 +24,8 @@ const DropZone: React.FC<DropZoneProps> = ({ accept }) => {
 	return (
 		<div
 			ref={drop}
-			className={`flex flex-col justify-start items-center h-full w-full border-2 border-dashed ${
-				isOver ? "border-green-500" : "border-gray-500"
+			className={`flex flex-col justify-start items-center h-full w-full border-2 border-dashed rounded p-2 gap-2 ${
+				isOver ? "border-green-500" : "border-slate-500"
 			}`}>
 			{items.map((item) => (
 				<DraggableItem

@@ -25,7 +25,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({
 	return (
 		<div
 			ref={drag}
-			className={`border-2 py-2 px-4 rounded border-slate-400 hover:bg-slate-900 active:opacity-80 transition-colors hover:cursor-pointer text-slate-300 hover:text-slate-200 ${
+			className={`border-2 py-2 px-4 rounded border-slate-400 hover:bg-slate-900 active:opacity-80 transition-colors hover:cursor-pointer text-slate-300 hover:text-slate-200 w-full ${
 				isDragging ? "opacity-50" : ""
 			}`}>
 			<span className="font-bold">{protocol}</span> - {displayName}

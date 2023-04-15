@@ -88,7 +88,7 @@ const HomePage = () => {
 						</ul>
 						<AddModifierButton />
 					</div>
-					<div className="border-2 rounded border-slate-400 col-span-3">
+					<div className=" col-span-3">
 						<DropZone accept="ITEM" />
 					</div>
 				</div>
