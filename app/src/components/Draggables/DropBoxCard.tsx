@@ -90,24 +90,23 @@ pragma solidity ^0.8.12;`;
     setIsOpen(true);
   }
 
-  const res = fetch("http://localhost:1510/api", {
-    method: "POST",
-    body: JSON.stringify({
-      plugins: [{ id: 1, params: { "<PARAM1>": "0x0" } }],
-    }),
-    mode: "no-cors",
-  }).then((res) => console.log(res));
-
+  useEffect(() => {
+    fetch("http://localhost:1510/api", {
+      method: "POST",
+      body: JSON.stringify({
+        plugins: [{ id: 1, params: { "<PARAM1>": "0x0" } }],
+      }),
+      mode: "no-cors",
+    }).then(console.log);
+  }, []);
   // todo plugins accepts params
 
   return (
     <>
       <div
         ref={(node) => drag(drop(node))}
-        className={`border-2 py-2 px-4 rounded border-slate-400 active:opacity-80 hover:cursor-pointer text-slate-300 hover:text-slate-200 w-full hover:opacity-70 transition-opacity ${
-          isDragging ? "opacity-50" : ""
-        }`}
-      >
+        className={`border-2 py-2 px-4 rounded border-slate-400 hover:bg-slate-900 active:opacity-80 transition-colors hover:cursor-pointer text-slate-300 hover:text-slate-200 w-full ${isDragging ? "opacity-50" : ""
+          }`}>
         <div className="flex justify-between space-x-2 items-center">
           <div className="flex flex-col">
             <div className="text-lg font-bold">
@@ -119,11 +118,10 @@ pragma solidity ^0.8.12;`;
           </div>
           <button
             type="button"
-            className="text-xs font-bold whitespace-nowrap p-2 border border-slate-200 items-center h-8 flex rounded-xl hover:bg-slate-700 hover:text-slate-300"
+            className="text-xs font-thin whitespace-nowrap p-2 border border-slate-200 items-center h-8 flex rounded-xl hover:bg-slate-200 hover:text-slate-900"
             onClick={() => {
               openModal();
-            }}
-          >
+            }}>
             show code
           </button>
         </div>
@@ -138,8 +136,7 @@ pragma solidity ^0.8.12;`;
             enterTo="opacity-100"
             leave="ease-in duration-200"
             leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
+            leaveTo="opacity-0">
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
@@ -152,13 +149,11 @@ pragma solidity ^0.8.12;`;
                 enterTo="opacity-100 scale-100"
                 leave="ease-in duration-200"
                 leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
+                leaveTo="opacity-0 scale-95">
                 <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-slate-100 p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900 flex justify-between"
-                  >
+                    className="text-lg font-medium leading-6 text-gray-900 flex justify-between">
                     <div className="div">{displayName}</div>
                     <div className="div">Validators: 4</div>
                   </Dialog.Title>
@@ -185,15 +180,13 @@ pragma solidity ^0.8.12;`;
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
-                    >
+                      onClick={closeModal}>
                       View on Git
                     </button>
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
-                    >
+                      onClick={closeModal}>
                       Close
                     </button>
                   </div>
