@@ -23,7 +23,7 @@ const PluginCard = ({
 				<div className="text-lg font-bold">{displayName}</div>
 				<div className="text-sm font-light text-slate-200">{description}</div>
 			</div>
-			<div className="ml-1">
+			<div className="ml-2">
 				{isAlreadyInPlugins ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
