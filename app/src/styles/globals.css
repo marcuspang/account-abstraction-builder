@@ -25,3 +25,22 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.normal-line-height {
+  line-height: normal;
+}
+
+.truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+
+:focus\:outline-none:focus {
+  outline: none;
+}
