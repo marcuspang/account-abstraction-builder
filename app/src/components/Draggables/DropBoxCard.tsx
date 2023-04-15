@@ -91,15 +91,29 @@ pragma solidity ^0.8.12;`;
   }
 
   useEffect(() => {
-    fetch("http://localhost:1510/api", {
-      method: "POST",
-      body: JSON.stringify({
-        plugins: [{ id: 1, params: { "<PARAM1>": "0x0" } }],
-      }),
-      mode: "no-cors",
-    }).then(console.log);
+    const url = 'http://localhost:1510/api';
+    const data = {
+      plugins: [
+        {
+          id: 1,
+          params: {
+            '<PARAM1>': '0x0',
+          },
+        },
+      ],
+    };
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
   }, []);
-  // todo plugins accepts params
 
   return (
     <>

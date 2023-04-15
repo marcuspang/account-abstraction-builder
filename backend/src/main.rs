@@ -7,10 +7,12 @@ mod plugin;
 mod types;
 
 use plugin::Plugin;
-use tide::{Request, Response};
+use tide::http::headers::HeaderValue;
+use tide::security::{CorsMiddleware, Origin};
+use tide::{Body, Request};
 use types::{GetSolidityCodeRequest, GetSolidityCodeResponse};
 
-async fn get_solidity_code(mut request: Request<()>) -> tide::Result {
+async fn get_solidity_code(mut request: Request<()>) -> Result<tide::Body, tide::Error> {
     let request_params: GetSolidityCodeRequest = request.body_json().await?;
 
     let ids: HashSet<u32> = HashSet::from_iter(request_params.plugins.iter().map(|p| p.id));
@@ -31,11 +33,7 @@ async fn get_solidity_code(mut request: Request<()>) -> tide::Result {
 
     let result = compile_contracts(code);
 
-    let response = Response::builder(200)
-        .body(serde_json::to_string(&result).unwrap())
-        .build();
-
-    Ok(response)
+    Body::from_json(&result)
 }
 
 fn add_plugins_to_file(plugins: Vec<Plugin>) -> HashMap<String, String> {
@@ -108,6 +106,11 @@ fn compile_contracts(code: HashMap<String, String>) -> GetSolidityCodeResponse {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut app = tide::new();
+    let cors = CorsMiddleware::new()
+        .allow_methods("GET, POST, OPTIONS".parse::<HeaderValue>().unwrap())
+        .allow_origin(Origin::from("*"))
+        .allow_credentials(false);
+    app.with(cors);
     app.at("/api").post(get_solidity_code);
     app.listen("127.0.0.1:1510").await?;
     Ok(())
