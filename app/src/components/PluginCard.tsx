@@ -1,4 +1,4 @@
-import type { CodePlugin } from "@/pages";
+import { CodePlugin } from "./PluginsSection";
 
 interface PluginCardProps extends CodePlugin {
   onClick: (id: number) => void;
@@ -20,7 +20,7 @@ const PluginCard = ({
       className="w-full space-y-2 border-2 p-2 border-slate-300 rounded hover:opacity-70 hover:cursor-pointer flex justify-between"
       onClick={() => onClick(id)}
     >
-      {displayName}{" "}
+      {id}. {displayName}{" "}
       {isAlreadyInPlugins && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@ const PluginCard = ({
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-6 h-6 stroke-green-400"
         >
           <path
             strokeLinecap="round"

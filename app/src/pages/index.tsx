@@ -1,7 +1,6 @@
 import DeployButton from "@/components/DeployButton";
 import DropBoxArea from "@/components/Draggables/DropBoxArea";
 import PluginsSection, { PLUGINS_DATA } from "@/components/PluginsSection";
-import clientService from "@/proto/client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { GetServerSideProps } from "next";
 import { Inter } from "next/font/google";
@@ -36,13 +35,6 @@ const HomePage = () => {
       <DeployButton>Deploy</DeployButton>
     </main>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log(clientService.GetSolidityCodeRequest);
-  return {
-    props: {},
-  };
 };
 
 export default HomePage;

@@ -8,10 +8,6 @@ interface PluginsSectionProps {
 }
 
 export const PLUGINS_DATA = [
-  // 1. push
-  // 2. aave
-  // 3. social recovery
-  // 4. worldcoin
   {
     displayName: "Send notification",
     protocol: "Push",
@@ -51,7 +47,7 @@ export interface CodePlugin {
 
 const PluginsSection = ({ plugins, setPlugins }: PluginsSectionProps) => {
   return (
-    <ul className="pb-12">
+    <ul className="pb-12 space-y-2">
       {PLUGINS_DATA.map((plugin, index) => (
         <PluginCard
           key={index}

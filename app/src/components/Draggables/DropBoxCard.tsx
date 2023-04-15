@@ -26,12 +26,12 @@ interface Item {
   originalIndex: number;
 }
 
-export const DropBoxCard: FC<CardProps> = memo(function Card({
+export const DropBoxCard = memo(function Card({
   id,
   text,
   moveCard,
   findCard,
-}) {
+}: CardProps) {
   const originalIndex = findCard ? findCard(id).index : 0;
   const [{ isDragging }, drag] = useDrag(
     () => ({
