@@ -8,8 +8,6 @@ import Editor from "react-simple-code-editor";
 // `Prism` has to be imported first
 import "prismjs/components/prism-css";
 import "prismjs/components/prism-solidity";
-import { ServiceClientImpl } from "@/proto_client/proto/service";
-import { HttpRpc } from "@/proto_client/proto/rpc";
 
 // TODO: add numbering
 const CodeEditor = () => {

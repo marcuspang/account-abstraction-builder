@@ -1,6 +1,8 @@
 import DeployButton from "@/components/DeployButton";
 import DropBoxArea from "@/components/Draggables/DropBoxArea";
-import PluginsSection, { PLUGINS_DATA } from "@/components/PluginsSection";
+import PluginsSection, {
+  PLUGINS_DATA,
+} from "@/components/Plugins/PluginsSection";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { GetServerSideProps } from "next";
 import { Inter } from "next/font/google";
