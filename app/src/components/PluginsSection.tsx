@@ -35,6 +35,16 @@ export const PLUGINS_DATA = [
 		id: 4,
 		description:
 			"Ensures that the wallet is only accessible to the specified Worldcoin account",
+		params: [
+			{
+				name: "test",
+				value: "test",
+			},
+			{
+				name: "test",
+				value: "test",
+			},
+		],
 	},
 ];
 

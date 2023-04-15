@@ -93,6 +93,18 @@ pragma solidity ^0.8.12;`;
 		setIsOpen(true);
 	}
 
+	const res = fetch("http://localhost:1510/api", {
+		method: "POST",
+		body: JSON.stringify({
+			plugins: [{ id: 1, params: { "<PARAM1>": "0x0" } }],
+		}),
+		mode: "no-cors",
+	}).then((res) => console.log(res));
+
+	console.log(res);
+
+	// todo plugins accepts params
+
 	return (
 		<>
 			<div
