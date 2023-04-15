@@ -3,54 +3,39 @@ use std::fs::{read_to_string, File};
 use std::io::Write;
 use std::process::Command;
 
-use tonic::{transport::Server, Request, Response, Status};
-
 mod plugin;
+mod types;
 
-mod service {
-    include!("service.rs");
-
-    pub(crate) const FILE_DESCRIPTOR_SET: &[u8] =
-        tonic::include_file_descriptor_set!("service_descriptor");
-}
-
-use crate::service::service_server::{Service, ServiceServer};
-use crate::service::{GetSolidityCodeRequest, GetSolidityCodeResponse};
 use plugin::Plugin;
+use tide::{Request, Response};
+use types::{GetSolidityCodeRequest, GetSolidityCodeResponse};
 
-#[derive(Default)]
-pub struct ServiceImpl {}
+async fn get_solidity_code(mut request: Request<()>) -> tide::Result {
+    let request_params: GetSolidityCodeRequest = request.body_json().await?;
 
-#[tonic::async_trait]
-impl Service for ServiceImpl {
-    async fn get_solidity_code(
-        &self,
-        request: Request<GetSolidityCodeRequest>,
-    ) -> Result<Response<GetSolidityCodeResponse>, Status> {
-        println!("Request from {:?}", request.remote_addr());
+    let ids: HashSet<u32> = HashSet::from_iter(request_params.plugins.iter().map(|p| p.id));
+    let plugin_map: HashMap<u32, &HashMap<String, String>> =
+        HashMap::<_, _, _>::from_iter(request_params.plugins.iter().map(|p| (p.id, &p.params)));
 
-        let request_params = request.into_inner();
+    let all_plugins = Plugin::get_from_file("plugins.json").unwrap();
 
-        let ids: HashSet<i32> = HashSet::from_iter(request_params.plugins.iter().map(|p| p.id));
-        let plugin_map: HashMap<i32, &HashMap<String, String>> =
-            HashMap::<_, _, _>::from_iter(request_params.plugins.iter().map(|p| (p.id, &p.params)));
-
-        let all_plugins = Plugin::get_from_file("plugins.json").unwrap();
-
-        let mut plugins = vec![];
-        for plugin in all_plugins {
-            if ids.contains(&plugin.id) {
-                plugins.push(plugin);
-            }
+    let mut plugins = vec![];
+    for plugin in all_plugins {
+        if ids.contains(&plugin.id) {
+            plugins.push(plugin);
         }
-
-        plugins.iter_mut().for_each(|p| p.enrich(plugin_map[&p.id]));
-        add_plugins_to_file(plugins);
-
-        let response = compile_contracts();
-
-        Ok(Response::new(response))
     }
+
+    plugins.iter_mut().for_each(|p| p.enrich(plugin_map[&p.id]));
+    add_plugins_to_file(plugins);
+
+    let result = compile_contracts();
+
+    let response = Response::builder(200)
+        .body(serde_json::to_string(&result).unwrap())
+        .build();
+
+    Ok(response)
 }
 
 fn add_plugins_to_file(plugins: Vec<Plugin>) {
@@ -108,21 +93,8 @@ fn compile_contracts() -> GetSolidityCodeResponse {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::1]:1510".parse().unwrap();
-    let service = ServiceImpl::default();
-
-    println!("Service server listening on {}", addr);
-
-    let reflection_service = tonic_reflection::server::Builder::configure()
-        .register_encoded_file_descriptor_set(service::FILE_DESCRIPTOR_SET)
-        .build()
-        .unwrap();
-
-    Server::builder()
-        .add_service(ServiceServer::new(service))
-        .add_service(reflection_service)
-        .serve(addr)
-        .await?;
-
+    let mut app = tide::new();
+    app.at("/api").post(get_solidity_code);
+    app.listen("127.0.0.1:1510").await?;
     Ok(())
 }

@@ -7,7 +7,7 @@ import "./plugins/PushLibrary.sol";
 
 contract UserAccount is BaawAccount {
     address constant pushCommContract = address(0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa);
-address constant channelId = address(address(0x0));
+address constant channelId = address(0x0);
 
     constructor(IEntryPoint entrypoint, address eoa_owner) BaawAccount(entrypoint) {
       owner = eoa_owner;

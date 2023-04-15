@@ -6,7 +6,7 @@ use serde_json::Result;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Plugin {
-    pub id: i32,
+    pub id: u32,
     pub constants: String,
     pub on_execute_calls: String,
     pub imports: String,
