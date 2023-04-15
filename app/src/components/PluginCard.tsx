@@ -1,8 +1,8 @@
-import type { Plugin } from "@/pages";
+import type { CodePlugin } from "@/pages";
 
-interface PluginCardProps extends Plugin {
+interface PluginCardProps extends CodePlugin {
   onClick: (id: number) => void;
-  currentPlugins: Plugin[];
+  currentPlugins: CodePlugin[];
 }
 
 const PluginCard = ({

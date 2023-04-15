@@ -3,7 +3,6 @@ import DropBoxArea from "@/components/Draggables/DropBoxArea";
 import PluginCard from "@/components/PluginCard";
 import clientService from "@/proto/client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { id } from "ethers/lib/utils.js";
 import { GetServerSideProps } from "next";
 import { Inter } from "next/font/google";
 import { useState } from "react";
@@ -15,41 +14,45 @@ const inter = Inter({ subsets: ["latin"] });
 // TODO: figure out how other code editors do this
 // TODO: adding modifiers !== composing code logic, not sure if this is what we are trying to aim for
 const PLUGINS_DATA = [
+  // 1. push
+  // 2. aave
+  // 3. social recovery
+  // 4. worldcoin
   {
-    displayName: "Add guard modifier",
-    protocol: "Gnosis",
+    displayName: "Send notification",
+    protocol: "Push",
     id: 1,
     description:
-      "Adds a guard modifier to all public methods, excluding the constructor",
-    modifyCode: (code: string) => {
-      return code
-        .split("\n")
-        .map((line) => {
-          if (!line.includes("constructor") && line.includes("public")) {
-            line += "\n";
-            for (const char of line) {
-              if (char === " ") {
-                line += " ";
-              } else {
-                break;
-              }
-            }
-            line += "    ";
-            line += "_mustBeOwner();";
-          }
-          return line;
-        })
-        .join("\n");
-    },
+      "Sends a push notification to the specified address whenever a transaction occurs",
+  },
+  {
+    displayName: "AAVE auto-lend",
+    protocol: "AAVE",
+    id: 2,
+    description:
+      "Immediately lends to the specified pool whenever a currency is deposited to the wallet",
+  },
+  {
+    displayName: "Social Recovery",
+    protocol: "Safe",
+    id: 3,
+    description:
+      "Enables you to recover your wallet through social media accounts",
+  },
+  {
+    displayName: "Make wallet soulbound to Worldcoin",
+    protocol: "Worldcoin",
+    id: 4,
+    description:
+      "Ensures that the wallet is only accessible to the specified Worldcoin account",
   },
 ];
 
-export interface Plugin {
+export interface CodePlugin {
   displayName: string;
   protocol: string;
   id: number;
   description: string;
-  modifyCode: (code: string) => string;
 }
 
 const HomePage = () => {

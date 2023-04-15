@@ -2,7 +2,7 @@ import update from "immutability-helper";
 import { Dispatch, SetStateAction, memo, useCallback } from "react";
 import { useDrop } from "react-dnd";
 import { DropBoxCard, ItemTypes } from "./DropBoxCard";
-import type { Plugin } from "@/pages";
+import type { CodePlugin } from "@/pages";
 
 export interface ContainerState {
   cards: any[];
@@ -12,8 +12,8 @@ const DropBoxArea = memo(function Container({
   plugins,
   setPlugins,
 }: {
-  plugins: Plugin[];
-  setPlugins: Dispatch<SetStateAction<Plugin[]>>;
+  plugins: CodePlugin[];
+  setPlugins: Dispatch<SetStateAction<CodePlugin[]>>;
 }) {
   const findCard = useCallback(
     (id: string) => {
