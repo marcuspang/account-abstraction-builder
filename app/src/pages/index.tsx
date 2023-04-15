@@ -2,6 +2,7 @@ import AddModifierButton from "@/components/AddModifierButton";
 import CodeEditor from "@/components/CodeEditor";
 import DeployButton from "@/components/DeployButton";
 import { useCodeContext } from "@/contexts/CodeContext";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Inter } from "next/font/google";
 import { toast } from "react-toastify";
 
@@ -47,6 +48,7 @@ const HomePage = () => {
         Your wallet made with Account Abstraction.
       </h1>
       <div className="absolute right-[58%] top-[70%] flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px] -z-50"></div>
+      <ConnectButton />
       <div className="grid grid-cols-5 pt-12 z-0 gap-4 w-full">
         <div className="col-span-3">
           <ul className="pb-12">
