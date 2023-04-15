@@ -20,4 +20,5 @@ pub struct GetSolidityCodeRequest {
 pub struct GetSolidityCodeResponse {
     pub compiled: bool,
     pub artifact: String,
+    pub code: HashMap<String, String>,
 }

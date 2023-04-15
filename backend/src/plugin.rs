@@ -10,6 +10,7 @@ pub struct Plugin {
     pub constants: String,
     pub on_execute_calls: String,
     pub imports: String,
+    pub file: String,
 }
 
 impl Plugin {

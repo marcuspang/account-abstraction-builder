@@ -27,9 +27,9 @@ async fn get_solidity_code(mut request: Request<()>) -> tide::Result {
     }
 
     plugins.iter_mut().for_each(|p| p.enrich(plugin_map[&p.id]));
-    add_plugins_to_file(plugins);
+    let code = add_plugins_to_file(plugins);
 
-    let result = compile_contracts();
+    let result = compile_contracts(code);
 
     let response = Response::builder(200)
         .body(serde_json::to_string(&result).unwrap())
@@ -38,7 +38,7 @@ async fn get_solidity_code(mut request: Request<()>) -> tide::Result {
     Ok(response)
 }
 
-fn add_plugins_to_file(plugins: Vec<Plugin>) {
+fn add_plugins_to_file(plugins: Vec<Plugin>) -> HashMap<String, String> {
     let mut template = read_to_string("UserAccount.solx").unwrap();
 
     let constants = plugins
@@ -67,9 +67,21 @@ fn add_plugins_to_file(plugins: Vec<Plugin>) {
 
     f.write_all(template.as_bytes())
         .expect("Unable to write data");
+
+    let mut code = HashMap::new();
+
+    for plugin in plugins {
+        code.insert(
+            plugin.file.clone(),
+            read_to_string("../contracts/src/".to_string() + &plugin.file).unwrap(),
+        );
+    }
+    code.insert("UserAccount.sol".to_string(), template);
+
+    return code;
 }
 
-fn compile_contracts() -> GetSolidityCodeResponse {
+fn compile_contracts(code: HashMap<String, String>) -> GetSolidityCodeResponse {
     let mut forge = Command::new("forge");
     forge.arg("build");
     forge.current_dir("../contracts");
@@ -79,6 +91,7 @@ fn compile_contracts() -> GetSolidityCodeResponse {
         return GetSolidityCodeResponse {
             compiled: false,
             artifact: "".to_string(),
+            code: HashMap::new(),
         };
     }
 
@@ -88,6 +101,7 @@ fn compile_contracts() -> GetSolidityCodeResponse {
     GetSolidityCodeResponse {
         compiled: true,
         artifact,
+        code,
     }
 }
 
