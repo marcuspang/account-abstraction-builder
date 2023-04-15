@@ -41,6 +41,7 @@
     "wagmi": "^0.12.10"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.194",
     "@types/prismjs": "^1.26.0",
     "@types/react-beautiful-dnd": "^13.1.4"
   }
