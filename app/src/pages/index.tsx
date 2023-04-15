@@ -2,7 +2,9 @@ import AddModifierButton from "@/components/AddModifierButton";
 import CodeEditor from "@/components/CodeEditor";
 import DeployButton from "@/components/DeployButton";
 import { useCodeContext } from "@/contexts/CodeContext";
+import clientService from "@/proto/client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { GetServerSideProps } from "next";
 import { Inter } from "next/font/google";
 import { toast } from "react-toastify";
 
@@ -42,6 +44,7 @@ const plugins = [
 
 const HomePage = () => {
   const { setCode } = useCodeContext();
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 max-w-7xl w-full mx-auto">
       <h1 className={`text-5xl font-bold text-center ${inter.className} pb-4`}>
@@ -74,6 +77,13 @@ const HomePage = () => {
       <DeployButton>Deploy</DeployButton>
     </main>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  console.log(clientService.GetSolidityCodeRequest);
+  return {
+    props: {},
+  };
 };
 
 export default HomePage;

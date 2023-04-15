@@ -7,9 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "proto": "mkdir src/proto_client && protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=src/proto_client proto/service.proto --proto_path=../backend"
+    "proto": "rm -rf src/proto_client/*.d.ts && mkdir -p src/proto_client && protoc -I=../backend/proto --ts_out=../app/src/proto_client --ts_opt=unary_rpc_promise=true service.proto",
+    "proto2": "$(npm bin)/proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=src/proto ../backend/proto/*.proto"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.8.14",
+    "@grpc/proto-loader": "^0.7.6",
     "@headlessui/react": "^1.7.14",
     "@rainbow-me/rainbowkit": "^0.12.8",
     "@tippyjs/react": "^4.2.6",
