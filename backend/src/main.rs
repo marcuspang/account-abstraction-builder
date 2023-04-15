@@ -1,6 +1,7 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fs::{read_to_string, File};
 use std::io::Write;
+use std::process::Command;
 
 use tonic::{transport::Server, Request, Response, Status};
 
@@ -28,13 +29,26 @@ impl Service for ServiceImpl {
     ) -> Result<Response<GetSolidityCodeResponse>, Status> {
         println!("Request from {:?}", request.remote_addr());
 
-        let plugins = Plugin::get_from_file("plugins.json").unwrap();
+        let request_params = request.into_inner();
+
+        let ids: HashSet<i32> = HashSet::from_iter(request_params.plugins.iter().map(|p| p.id));
+        let plugin_map: HashMap<i32, &HashMap<String, String>> =
+            HashMap::<_, _, _>::from_iter(request_params.plugins.iter().map(|p| (p.id, &p.params)));
+
+        let all_plugins = Plugin::get_from_file("plugins.json").unwrap();
+
+        let mut plugins = vec![];
+        for plugin in all_plugins {
+            if ids.contains(&plugin.id) {
+                plugins.push(plugin);
+            }
+        }
+
+        plugins.iter_mut().for_each(|p| p.enrich(plugin_map[&p.id]));
         add_plugins_to_file(plugins);
 
-        let response = GetSolidityCodeResponse {
-            compiled: true,
-            code: HashMap::new(),
-        };
+        let response = compile_contracts();
+
         Ok(Response::new(response))
     }
 }
@@ -68,6 +82,30 @@ fn add_plugins_to_file(plugins: Vec<Plugin>) {
 
     f.write_all(template.as_bytes())
         .expect("Unable to write data");
+}
+
+fn compile_contracts() -> GetSolidityCodeResponse {
+    let mut forge = Command::new("forge");
+    forge.arg("build");
+    forge.current_dir("../contracts");
+
+    let output = forge.output().unwrap();
+    if !output.status.success() {
+        return GetSolidityCodeResponse {
+            compiled: false,
+            code: HashMap::new(),
+        };
+    }
+
+    let output_json_path = "../contracts/out/UserAccount.sol/UserAccount.json";
+    let artifact = read_to_string(output_json_path).unwrap();
+    let mut code = HashMap::new();
+    code.insert("artifact".to_string(), artifact);
+
+    GetSolidityCodeResponse {
+        compiled: true,
+        code,
+    }
 }
 
 #[tokio::main]

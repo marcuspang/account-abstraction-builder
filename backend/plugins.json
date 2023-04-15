@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "constants": "address constant pushCommContract = address(0x0);\naddress constant channelId = address(0x0);",
+    "constants": "address constant pushCommContract = address(0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa);\naddress constant channelId = address(<PARAM1>);",
     "onExecuteCalls": "PushLibrary.execute(\npushCommContract,\nchannelId,\naddress(this),\ndest,\nvalue,\nfunc\n);",
     "imports": "import \"./plugins/PushLibrary.sol\";"
   }

@@ -3,10 +3,11 @@ pragma solidity ^0.8.13;
 
 import "./BaawAccount.sol";
 
-<IMPORTS>
+import "./plugins/PushLibrary.sol";
 
 contract UserAccount is BaawAccount {
-    <CONSTANTS>
+    address constant pushCommContract = address(0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa);
+address constant channelId = address(address(0x0));
 
     constructor(IEntryPoint entrypoint, address eoa_owner) BaawAccount(entrypoint) {
       owner = eoa_owner;
@@ -17,6 +18,13 @@ contract UserAccount is BaawAccount {
         uint256 value,
         bytes calldata func
     ) internal override {
-      <LIBRARY_CALLS>
+      PushLibrary.execute(
+pushCommContract,
+channelId,
+address(this),
+dest,
+value,
+func
+);
     }
 }

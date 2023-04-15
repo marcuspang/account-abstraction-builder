@@ -6,7 +6,13 @@ service Service {
   rpc GetSolidityCode(GetSolidityCodeRequest) returns (GetSolidityCodeResponse) {}
 }
 
+message Plugin {
+  int32 id = 1;
+  map<string, string> params = 2;
+}
+
 message GetSolidityCodeRequest {
+  repeated Plugin plugins = 1;
 }
 
 message GetSolidityCodeResponse {
