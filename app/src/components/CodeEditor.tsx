@@ -11,24 +11,24 @@ import "prismjs/components/prism-solidity";
 
 // TODO: add numbering
 const CodeEditor = () => {
-	const { code, setCode } = useCodeContext();
+  const { code, setCode } = useCodeContext();
 
-	useEffect(() => {
-		Prism.highlightAll();
-	}, []);
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
 
-	return (
-		<Editor
-			value={code}
-			onValueChange={(code) => setCode?.(code)}
-			padding={10}
-			highlight={(code) => highlight(code, languages.sol, "solidity")}
-			style={{
-				fontFamily: '"Fira code", "Fira Mono", monospace',
-				fontSize: 12,
-			}}
-		/>
-	);
+  return (
+    <Editor
+      value={code}
+      onValueChange={(code) => setCode?.(code)}
+      padding={10}
+      highlight={(code) => highlight(code, languages.sol, "solidity")}
+      style={{
+        fontFamily: '"Fira code", "Fira Mono", monospace',
+        fontSize: 12,
+      }}
+    />
+  );
 };
 
 export default CodeEditor;
