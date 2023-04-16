@@ -1,8 +1,11 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with
 [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Polygon address "0x0576a174D229E3cFA37253523E645A78A0C91B57"
-"0xAD2d2CDE7CA8d116d545099405C1FDFc57B6FD9e"
+Here are a some accounts that have been built using our tool, with the PUSH
+plugin enabled.
+
+Polygon Mumbai Testnet Contract: `0x777D8F64781d8548151bad125B1084eeE12C91D7`
+Ethereum Goerli Testnet Contract: `0xf3C302a9dCe602f2EC571c825240d140B4732f23`
 
 ## Getting Started
 
