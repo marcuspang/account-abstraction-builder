@@ -5,5 +5,12 @@
     "onExecuteCalls": "PushLibrary.execute(\npushCommContract,\nchannelId,\naddress(this),\ndest,\nvalue,\nfunc\n);",
     "imports": "import \"./plugins/PushLibrary.sol\";",
     "file": "plugins/PushLibrary.sol"
+  },
+  {
+    "id": 2,
+    "constants": "address constant lendingPool = address(0x0);",
+    "onExecuteCalls": "AaveLibrary.execute(\nlendingPool,address(this),value);",
+    "imports": "import \"./plugins/AaveLibrary.sol\";",
+    "file": "plugins/AaveLibrary.sol"
   }
 ]

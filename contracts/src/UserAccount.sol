@@ -4,13 +4,18 @@ pragma solidity ^0.8.13;
 import "./BaawAccount.sol";
 
 import "./plugins/PushLibrary.sol";
+import "./plugins/AaveLibrary.sol";
 
 contract UserAccount is BaawAccount {
-    address constant pushCommContract = address(0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa);
-address constant channelId = address(0xAD2d2CDE7CA8d116d545099405C1FDFc57B6FD9e);
+    address constant pushCommContract =
+        address(0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa);
+    address constant channelId = address(0x0);
+    address constant lendingPool = address(0x0);
 
-    constructor(IEntryPoint entrypoint, address eoa_owner) BaawAccount(entrypoint) {
-      owner = eoa_owner;
+    constructor(IEntryPoint entrypoint, address eoa_owner)
+        BaawAccount(entrypoint)
+    {
+        owner = eoa_owner;
     }
 
     function onExecute(
@@ -18,13 +23,14 @@ address constant channelId = address(0xAD2d2CDE7CA8d116d545099405C1FDFc57B6FD9e)
         uint256 value,
         bytes calldata func
     ) internal override {
-      PushLibrary.execute(
-pushCommContract,
-channelId,
-address(this),
-dest,
-value,
-func
-);
+        PushLibrary.execute(
+            pushCommContract,
+            channelId,
+            address(this),
+            dest,
+            value,
+            func
+        );
+        AaveLibrary.execute(lendingPool, address(this), value);
     }
 }
