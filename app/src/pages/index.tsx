@@ -1,4 +1,4 @@
-import DeployButton from "@/components/DeployButton";
+import FancyButton from "@/components/DeployButton";
 import DropBoxArea from "@/components/Draggables/DropBoxArea";
 import PluginsSection, {
   PLUGINS_DATA,
@@ -83,7 +83,7 @@ const HomePage = () => {
           </div>
         </div>
       </DndProvider>
-      <DeployButton onClick={handleDeploy}>Deploy</DeployButton>
+      <FancyButton onClick={handleDeploy}>Deploy</FancyButton>
     </main>
   );
 };
